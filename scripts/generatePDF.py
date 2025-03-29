@@ -125,12 +125,6 @@ def process_template(template_path, llama_path, gguf_path, console_line_count):
         gguf_content = file.read()
     gguf_base64 = base64.b64encode(gguf_content).decode("utf-8")
 
-    print("Processing draft model GGUF")
-    # Read the GGUF file and encode to base64
-    with open("../models/tinyllm-q2.gguf", "rb") as file:
-        gguf_2_content = file.read()
-    gguf_2_base64 = base64.b64encode(gguf_2_content).decode("utf-8")
-
     # Replace placeholders
     processed_template = template_content
     processed_template = processed_template.replace("// __MODULE_CODE__", llama_code)
@@ -138,7 +132,6 @@ def process_template(template_path, llama_path, gguf_path, console_line_count):
         "__CONSOLE_LINE_COUNT__", str(console_line_count)
     )
     processed_template = processed_template.replace("__GGUF_FILE__", gguf_base64)
-    processed_template = processed_template.replace("__GGUF_FILE_2__", gguf_2_base64)
 
     print("Finished JS code processing")
 
