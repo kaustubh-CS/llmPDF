@@ -275,7 +275,7 @@ if __name__ == "__main__":
     page.Contents.stream = create_text(
         prompt_input_x, prompt_area_height + 14, 9, "Prompt:"
     )
-    page.Contents.stream += create_text(5, prompt_area_height + 14, 9, "v0.1a")
+    page.Contents.stream += create_text(5, prompt_area_height + 14, 9, "v1.0")
     page.Contents.stream += create_text(
         token_input_x, prompt_area_height + 14, 9, "Tok Out:"
     )
