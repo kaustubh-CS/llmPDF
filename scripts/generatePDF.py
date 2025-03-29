@@ -1,10 +1,12 @@
 import base64
+import argparse
 
 from pdfrw import PdfWriter
 from pdfrw.objects.pdfname import PdfName
 from pdfrw.objects.pdfstring import PdfString
 from pdfrw.objects.pdfdict import PdfDict
 from pdfrw.objects.pdfarray import PdfArray
+import os
 
 
 def create_script(js):
@@ -128,6 +130,8 @@ def process_template(template_path, llama_path, gguf_path, console_line_count):
     # Replace placeholders
     processed_template = template_content
     processed_template = processed_template.replace("// __MODULE_CODE__", llama_code)
+    file_name = os.path.basename(gguf_path)
+    processed_template = processed_template.replace("__FILE_NAME__", file_name)
     processed_template = processed_template.replace(
         "__CONSOLE_LINE_COUNT__", str(console_line_count)
     )
@@ -139,11 +143,62 @@ def process_template(template_path, llama_path, gguf_path, console_line_count):
 
 
 if __name__ == "__main__":
-    TEMPLATE_PATH = "../src/template.js"
-    GGUF_PATH = "../models/tinyllm-q2.gguf"
-    LLAMA_PATH = "../llama/llama.js"
+    file_dir = os.path.dirname(os.path.abspath(__file__))
+    parser = argparse.ArgumentParser(
+        description="Generate a PDF with embedded LLM capabilities"
+    )
 
-    OUTPUT_PATH = "../llm.pdf"
+    parser.add_argument(
+        "--template",
+        type=str,
+        default=os.path.join(file_dir, "../src/template.js"),
+        help="Path to the JavaScript template file",
+    )
+
+    parser.add_argument(
+        "--model",
+        type=str,
+        required=True,
+        help="Path to the GGUF model file",
+    )
+
+    parser.add_argument(
+        "--llama",
+        type=str,
+        default=os.path.join(file_dir, "../llama/llama.js"),
+        help="Path to the llama.js file",
+    )
+
+    parser.add_argument(
+        "--output",
+        type=str,
+        default=os.path.join(file_dir, "../builds/llm.pdf"),
+        help="Path where the output PDF will be saved",
+    )
+
+    args = parser.parse_args()
+
+    TEMPLATE_PATH = args.template
+    GGUF_PATH = args.model
+    LLAMA_PATH = args.llama
+    OUTPUT_PATH = args.output
+
+    print(f"Using template: {TEMPLATE_PATH}")
+    print(f"Using model: {GGUF_PATH}")
+    print(f"Using llama.js: {LLAMA_PATH}")
+    print(f"Output path: {OUTPUT_PATH}")
+
+    # TEMPLATE_PATH = "../src/template.js"
+    # # GGUF_PATH = "../models/tinystories-3m-q8.gguf"
+    # GGUF_PATH = "../models/smollm2-135M-it-q1.gguf"
+    # GGUF_PATH = "../models/smollm2-135M-it-q8.gguf"
+    # GGUF_PATH = "../models/pythia-31m-chat-q8.gguf"
+    # GGUF_PATH = "../models/tinystories-3m-q8.gguf"
+    # GGUF_PATH = "../models/tinyllm-q8.gguf"
+    # # GGUF_PATH = "../models/pythia-14m-q2.gguf"
+    # LLAMA_PATH = "../llama/llama.js"
+
+    # OUTPUT_PATH = "../llm.pdf"
 
     width = 700
     height = 700
@@ -176,7 +231,7 @@ if __name__ == "__main__":
         fields.append(field)
 
     # Add prompt input field
-    prompt_input_width = 325
+    prompt_input_width = 315
     prompt_input_height = 25
     prompt_input_x = 100
     main_ui_height = prompt_area_height - 15
@@ -190,11 +245,11 @@ if __name__ == "__main__":
     )
     fields.append(prompt_input)
 
-    token_input_width = 95
+    token_input_width = 50
     token_input_height = 25
     token_input_x = prompt_input_x + prompt_input_width + 5
     token_input = create_field(
-        "tokenInput",
+        "tokenCount",
         token_input_x,
         main_ui_height,
         token_input_width,
@@ -203,15 +258,36 @@ if __name__ == "__main__":
     )
     fields.append(token_input)
 
+    context_input_width = 50
+    context_input_height = 25
+    context_input_x = token_input_x + token_input_width + 5
+    context_input = create_field(
+        "context",
+        context_input_x,
+        main_ui_height,
+        context_input_width,
+        context_input_height,
+        "15",
+    )
+    fields.append(context_input)
+
     # Add "Prompt:" label
-    page.Contents.stream = create_text(prompt_input_x, prompt_area_height + 14, 9, "Prompt:")
-    page.Contents.stream += create_text(token_input_x, prompt_area_height + 14, 9, "Output Token #:")
+    page.Contents.stream = create_text(
+        prompt_input_x, prompt_area_height + 14, 9, "Prompt:"
+    )
+    page.Contents.stream += create_text(5, prompt_area_height + 14, 9, "v0.1a")
+    page.Contents.stream += create_text(
+        token_input_x, prompt_area_height + 14, 9, "Tok Out:"
+    )
+    page.Contents.stream += create_text(
+        context_input_x, prompt_area_height + 14, 9, "Ctx Len:"
+    )
 
     # Add buttons
     button_width = 80
     button_height = 25
 
-    ask_button_x = token_input_x + token_input_width + 5
+    ask_button_x = context_input_x + token_input_width + 5
     complete_button_x = ask_button_x + button_width + 5
 
     # Create title text
