@@ -1,6 +1,24 @@
-![llm.pdf Logo](./assets/logo.svg)
+<img src="./assets/logo.svg" width="200px">
 
 > Run LLMs inside a PDF file.
+
+## Load a Custom Model in the PDF
+
+The `scripts/generatePDF.py` file will help you create a PDF with any compatible LLM.
+
+The easiest way to get started is with the following command:
+```sh
+cd scripts
+python3 generatePDF.py --model "path/for/model.gguf" --output "path/to/output.pdf"
+```
+
+### Choosing a Model
+
+Here's the general guidelines when picking a model:
+
+* Only GGUF quantized models work.
+* Generally, try to use Q8 quantized models, as those run the fastest.
+* For reference, 135M parameter models take around 5s per token input/output. Anything higher will likely be unreasonably slow.
 
 ## Inspiration and Credits
 
