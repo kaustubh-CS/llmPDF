@@ -22,9 +22,9 @@ process_model \
     "pythia-chat-31M-q8.gguf" \
     "pythia-llm.pdf"
 process_model \
-    "Felladrin/gguf-SmolLM-135M-Instruct" \
-    "SmolLM-135M-Instruct.Q8_0.gguf" \
-    "smollm-it-135M-q8.gguf" \
+    "unsloth/SmolLM2-135M-Instruct-GGUF" \
+    "SmolLM2-135M-Instruct-Q8_0.gguf" \
+    "smollm2-it-135M-q8.gguf" \
     "smollm-llm.pdf"
 process_model \
     "mradermacher/Tiny-LLM-GGUF" \
