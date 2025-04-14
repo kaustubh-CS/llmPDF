@@ -1,6 +1,18 @@
-<img src="./assets/logo.svg" width="200px">
+<img src="./assets/logo.svg" width="300px">
 
 > Run LLMs inside a PDF file.
+
+Watch how llm.pdf was built [on YouTube](https://youtu.be/4cBom2lAx-g).
+
+## What is llm.pdf?
+
+This is a proof-of-concept project, showing that it's possible to run an entire Large Language Model in nothing but a PDF file.
+
+It uses [Emscripten](https://emscripten.org/) to compile [llama.cpp](https://github.com/ggml-org/llama.cpp?tab=readme-ov-file) into [asm.js](https://en.wikipedia.org/wiki/Asm.js), which can then be run in the PDF using an old PDF JS injection.
+
+Combined with embedding the entire LLM file into the PDF with base64, we are able to run LLM inference in nothing but a PDF.
+
+[Watch the video on YouTube](https://youtu.be/4cBom2lAx-g) to learn the full story!
 
 ## Load a Custom Model in the PDF
 
@@ -22,8 +34,11 @@ Here's the general guidelines when picking a model:
 
 ## Inspiration and Credits
 
-This was inspired originally by [ading2210's DoomPDF](https://github.com/ading2210/doompdf), and it's source inpsired many of the compilation flags for llm.pdf.
+Thank you to the following for inspiration and reference:
+* [ading2210's DoomPDF](https://github.com/ading2210/doompdf)
+* [rahuldshetty's llm.js](https://github.com/rahuldshetty/llm.js)
 
-Thank you to [rahuldshetty's llm.js](https://github.com/rahuldshetty/llm.js) for providing the original idea of compiling llama.cpp into JS.
-
-Shoutout to Pythia [EleutherAI's pythia models](https://github.com/EleutherAI/pythia), [Ronen Eldan and Yuanzhi Li's TinyStories LLM](https://arxiv.org/abs/2305.07759), as well as [arnir0's Tiny-LLM](https://arxiv.org/abs/2305.07759) for providing the small LLMs that power llm.pdf.
+Thank you to the following for creating the tiny LLMs that power llm.pdf:
+* [EleutherAI's pythia models](https://github.com/EleutherAI/pythia)
+* [Ronen Eldan and Yuanzhi Li's TinyStories LLM](https://arxiv.org/abs/2305.07759)
+* [arnir0's Tiny-LLM](https://arxiv.org/abs/2305.07759)
