@@ -53,7 +53,7 @@ cd $TARGET_DIR
 # Configure CMake
 emcmake cmake $ROOT_DIR/$LLAMA_DIR
 
-export EMCC_CFLAGS="-O3 -s SINGLE_FILE=1 -fno-rtti -flto=full -s DISABLE_EXCEPTION_CATCHING=0 -sWASM=0 -Wno-fastcomp -Wabsolute-value -static '-sEXPORTED_FUNCTIONS=[_main]' -s INITIAL_MEMORY=1GB -s MAXIMUM_MEMORY=1500MB -s ALLOW_MEMORY_GROWTH -s ASSERTIONS=1 -s --pre-js $ROOT_DIR/polyfill.js"
+export EMCC_CFLAGS="-O3 -s SINGLE_FILE=1 -fno-rtti -flto=full -s DISABLE_EXCEPTION_CATCHING=0 -sWASM=0 -Wno-fastcomp -Wabsolute-value -static '-sEXPORTED_FUNCTIONS=[_main]' -s INITIAL_MEMORY=1GB -s MAXIMUM_MEMORY=1400MB -s ALLOW_MEMORY_GROWTH -s ASSERTIONS=1 -s --pre-js $ROOT_DIR/polyfill.js"
 
 # Compile llama-cli
 cd examples/main
