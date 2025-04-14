@@ -65,18 +65,15 @@ try {
         }
 
         function b64_to_uint8array(str) {
-            // Pre-compute lookup table for faster char to value conversion
-            const lookupTable = new Uint8Array(123); // ASCII range
+            const lookupTable = new Uint8Array(123);
             "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".split('').forEach((c, i) => {
                 lookupTable[c.charCodeAt(0)] = i;
             });
 
-            // Pre-allocate the result array
             const resultLength = Math.floor(str.length / 4) * 3;
             const result = new Uint8Array(resultLength);
             let resultIndex = 0;
 
-            // Process 4 characters at a time directly to bytes
             for (let i = 0; i < str.length; i += 4) {
                 const v1 = lookupTable[str.charCodeAt(i)];
                 const v2 = lookupTable[str.charCodeAt(i + 1)];
