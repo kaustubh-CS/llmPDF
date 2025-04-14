@@ -222,7 +222,6 @@ if __name__ == "__main__":
     console_area_height = height - prompt_area_height - info_text_height - 5
     rows = console_area_height // field_height
 
-    # Create console fields (now at the top)
     for i in range(rows):
         y = height - (i + 1) * field_height
         field = create_field(
